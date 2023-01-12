@@ -1,5 +1,5 @@
 
-![Logo](https://jumpstarterx.com/logo.png)
+<img src="https://jumpstarterx.com/logo.png" alt="Logo" width="200"/>
 
 
 
