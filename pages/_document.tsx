@@ -31,6 +31,10 @@ export default class Document extends NextDocument {
                         property="og:url"
                         content="https://jumpstarterx.com"
                     />
+                    <meta
+                        name="google-site-verification"
+                        content="qNyRus4D7dvgzWLkzBQ3jZwV14mZsQJdgjjHU3A5x8Y"
+                    />
                 </Head>
                 <body>
                     {/* 👇 Here's the script */}
