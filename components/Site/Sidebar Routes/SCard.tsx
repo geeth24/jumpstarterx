@@ -1,5 +1,23 @@
 import React from "react"
-import { Box, Image, Link, chakra, Button, HStack } from "@chakra-ui/react"
+import {
+    Box,
+    Image,
+    Link,
+    chakra,
+    Button,
+    HStack,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    VStack,
+    Text,
+    Code,
+} from "@chakra-ui/react"
 
 import { FaDownload, FaEdit } from "react-icons/fa"
 import saveAs from "file-saver"
@@ -28,6 +46,12 @@ const SCard = (props: any) => {
     const [heroData, setHeroData] = React.useState<any>(null)
     const [aboutData, setAboutData] = React.useState<any>(null)
     const [isLoading, setIsLoading] = React.useState(false)
+    const OverlayOne = () => (
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+    )
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [overlay, setOverlay] = React.useState(<OverlayOne />)
 
     React.useEffect(() => {
         user.sites?.filter((site: any) => {
@@ -273,6 +297,56 @@ export const config = {
             overflow="hidden"
             mx="auto"
         >
+            <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                {overlay}
+                <ModalContent>
+                    <ModalHeader>Download Site</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontSize="xl" color="gray.400">
+                            Download contains all the files of your site. You
+                            can use it to host your site on any platform.
+                            <br />
+                            <br />
+                        </Text>
+                        <Text fontSize="md" color="gray.400">
+                            Open the zip file and run the following command to
+                            run the site locally.
+                            <br />
+                            <Code fontSize="md" color="gray.400">
+                                npm run jsx or yarn jsx
+                            </Code>
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <VStack spacing="2">
+                            <HStack>
+                                <Button
+                                    onClick={onClose}
+                                    colorScheme="blue"
+                                    variant="ghost"
+                                    mr={3}
+                                >
+                                    Close
+                                </Button>
+                                <Button
+                                    colorScheme="blue"
+                                    isLoading={isLoading}
+                                    onClick={() => {
+                                        downloadFolderAsZipPublic(
+                                            props.id,
+                                            props.title
+                                        )
+                                        onClose()
+                                    }}
+                                >
+                                    Confirm and Download
+                                </Button>
+                            </HStack>
+                        </VStack>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <Image
                 w="full"
                 h={56}
@@ -319,7 +393,8 @@ export const config = {
                         colorScheme="blue"
                         rightIcon={<FaDownload />}
                         onClick={() => {
-                            downloadFolderAsZipPublic(props.id, props.title)
+                            // downloadFolderAsZipPublic(props.id, props.title)
+                            onOpen()
                         }}
                         isLoading={isLoading}
                     >
