@@ -48,12 +48,12 @@ import SSettings from "./Sidebar Routes/SSettings"
 import { AddIcon } from "@chakra-ui/icons"
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore"
 import { auth, db } from "../../utils/Firebase"
-import { FDLogo } from "../FDLogo"
 import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage"
 import axios from "axios"
 import { encode as base64_encode } from "base-64"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import Image from "next/image"
 
 interface SidebarProps {
     tab: string
@@ -728,8 +728,8 @@ export const config = {
             {...props}
         >
             <Flex px="4" py="5" align="center">
-                <Flex>
-                    <FDLogo />
+                <Flex align="center" mr="auto">
+                    <Image src="/logo.png" alt="logo" width="35" height="35" />
                     <chakra.h1
                         fontSize="xl"
                         ml="2"
@@ -841,6 +841,7 @@ export const config = {
                                 setOverlay(<OverlayOne />)
                                 onOpen()
                             }}
+                            variant="outline"
                         >
                             New Site
                         </Button>

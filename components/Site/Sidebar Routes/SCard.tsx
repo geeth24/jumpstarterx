@@ -17,9 +17,10 @@ import {
     VStack,
     Text,
     Code,
+    IconButton,
 } from "@chakra-ui/react"
 
-import { FaDownload, FaEdit } from "react-icons/fa"
+import { FaDownload, FaEdit, FaTrash } from "react-icons/fa"
 import saveAs from "file-saver"
 import {
     getStorage,
@@ -28,16 +29,17 @@ import {
     listAll,
     getMetadata,
     getDownloadURL,
+    deleteObject,
 } from "firebase/storage"
-import JSZip from "jszip"
+import JSZip, { remove } from "jszip"
 import { encode as base64_encode } from "base-64"
-import { getDoc, doc } from "firebase/firestore"
+import { getDoc, doc, deleteDoc, collection, getDocs } from "firebase/firestore"
 import { auth, db } from "../../../utils/Firebase"
 import { UserAuth } from "../../context/AuthContext"
 // import { downloadFolderAsZipPublic } from "../../../utils/Zip"
 
 const SCard = (props: any) => {
-    const { user } = UserAuth()
+    const { user, getUserData } = UserAuth()
 
     //get site data
     const [siteData, setSiteData] = React.useState<any>(null)
@@ -46,11 +48,17 @@ const SCard = (props: any) => {
     const [heroData, setHeroData] = React.useState<any>(null)
     const [aboutData, setAboutData] = React.useState<any>(null)
     const [isLoading, setIsLoading] = React.useState(false)
+    const [isDeleting, setIsDeleting] = React.useState(false)
     const OverlayOne = () => (
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
     )
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const {
+        isOpen: isOpen2,
+        onOpen: onOpen2,
+        onClose: onClose2,
+    } = useDisclosure()
     const [overlay, setOverlay] = React.useState(<OverlayOne />)
 
     React.useEffect(() => {
@@ -115,10 +123,10 @@ const SCard = (props: any) => {
         getSiteData()
         setIsLoading(false)
     }, [props.id, user.sites])
+    const storage = getStorage()
 
     const downloadFolderAsZipPublic = async (id: string, title: string) => {
         setIsLoading(true)
-        const storage = getStorage()
 
         var configFile = `
 // Made with JumpStarterX      
@@ -287,6 +295,127 @@ export const config = {
         setIsLoading(false)
     }
 
+    const deleteSite = async (id: string) => {
+        setIsDeleting(true)
+        const siteRef = ref(
+            storage,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id +
+                "/src" +
+                "/components"
+        )
+        const folder = await listAll(siteRef)
+        const promises = folder.items
+            .map(async (item) => {
+                const fileRef = ref(storage, item.fullPath)
+                await deleteObject(fileRef)
+            })
+            .reduce((acc, curr) => acc.then(() => curr), Promise.resolve())
+        await promises
+
+        const siteRef2 = ref(
+            storage,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id +
+                "/src"
+        )
+        const folder2 = await listAll(siteRef2)
+        const promises2 = folder2.items
+            .map(async (item) => {
+                const fileRef = ref(storage, item.fullPath)
+                await deleteObject(fileRef)
+            })
+            .reduce((acc, curr) => acc.then(() => curr), Promise.resolve())
+        await promises2
+
+        const siteRef3 = ref(
+            storage,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id +
+                "/public"
+        )
+        const folder3 = await listAll(siteRef3)
+        const promises3 = folder3.items
+            .map(async (item) => {
+                const fileRef = ref(storage, item.fullPath)
+                await deleteObject(fileRef)
+            })
+            .reduce((acc, curr) => acc.then(() => curr), Promise.resolve())
+        await promises3
+
+        const siteRef4 = ref(
+            storage,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id +
+                "/images"
+        )
+        const folder4 = await listAll(siteRef4)
+        const promises4 = folder4.items
+            .map(async (item) => {
+                const fileRef = ref(storage, item.fullPath)
+                await deleteObject(fileRef)
+            })
+            .reduce((acc, curr) => acc.then(() => curr), Promise.resolve())
+        await promises4
+
+        const siteRef5 = ref(
+            storage,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id
+        )
+        const folder5 = await listAll(siteRef5)
+        const promises5 = folder5.items
+            .map(async (item) => {
+                const fileRef = ref(storage, item.fullPath)
+                await deleteObject(fileRef)
+            })
+            .reduce((acc, curr) => acc.then(() => curr), Promise.resolve())
+        await promises5
+
+        const siteDoc = doc(
+            db,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id
+        )
+        await deleteDoc(siteDoc)
+
+        //delete components collection from firestore
+        const componentsDoc = collection(
+            db,
+            "users/" +
+                // @ts-ignore
+                auth.currentUser.uid +
+                "/sites/" +
+                id +
+                "/components"
+        )
+        const components = await getDocs(componentsDoc)
+        components.forEach(async (component: any) => {
+            await deleteDoc(component.ref)
+        })
+
+        setIsDeleting(false)
+        getUserData()
+    }
+
     return (
         <Box
             w="xs"
@@ -347,6 +476,49 @@ export const config = {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            <Modal isCentered isOpen={isOpen2} onClose={onClose2}>
+                {overlay}
+                <ModalContent>
+                    <ModalHeader>Delete Site</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontSize="xl" color="gray.400">
+                            Are you sure you want to delete this site? This
+                            action cannot be undone.
+                            <br />
+                            <br />
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <VStack spacing="2">
+                            <HStack>
+                                <Button
+                                    onClick={onClose2}
+                                    colorScheme="blue"
+                                    variant="ghost"
+                                    mr={3}
+                                >
+                                    Close
+                                </Button>
+                                <Button
+                                    colorScheme="red"
+                                    isLoading={isLoading}
+                                    onClick={() => {
+                                        // downloadFolderAsZipPublic(
+                                        //     props.id,
+                                        //     props.title
+                                        // )
+                                        deleteSite(props.id)
+                                        onClose2()
+                                    }}
+                                >
+                                    Confirm and Delete
+                                </Button>
+                            </HStack>
+                        </VStack>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <Image
                 w="full"
                 h={56}
@@ -397,9 +569,20 @@ export const config = {
                             onOpen()
                         }}
                         isLoading={isLoading}
+                        variant="outline"
                     >
                         Download
                     </Button>
+                    <IconButton
+                        colorScheme="red"
+                        onClick={() => {
+                            onOpen2()
+                        }}
+                        isLoading={isDeleting}
+                        variant="ghost"
+                        aria-label="Delete"
+                        icon={<FaTrash />}
+                    />
                 </HStack>
             </Box>
         </Box>

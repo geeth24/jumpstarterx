@@ -9,8 +9,11 @@ interface SHomeProps {
 
 function SHome({ searchInput }: SHomeProps) {
     // @ts-ignore
-    const { user, isLoading } = UserAuth()
+    const { user, isLoading, getUserData } = UserAuth()
 
+    React.useEffect(() => {
+        getUserData()
+    }, [])
     return (
         <>
             <Box as="main" p="4">
