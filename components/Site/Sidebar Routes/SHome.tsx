@@ -13,7 +13,7 @@ function SHome({ searchInput }: SHomeProps) {
 
     React.useEffect(() => {
         getUserData()
-    }, [])
+    }, [getUserData])
     return (
         <>
             <Box as="main" p="4">
