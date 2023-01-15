@@ -1,7 +1,6 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import Head from "next/head"
 import Footer from "../components/Footer"
-// import CTA from "../components/Home/CTA"
+import CTA from "../components/Home/CTA"
 import FAQ from "../components/Home/FAQ"
 import Features from "../components/Home/Features"
 import Hero from "../components/Home/Hero"
@@ -18,8 +17,8 @@ export default function Home() {
             <Hero />
             <Features />
             <Pricing />
-            <FAQ />
-            {/* <CTA /> */}
+            {/* <FAQ /> */}
+            <CTA />
             <Footer />
         </>
     )

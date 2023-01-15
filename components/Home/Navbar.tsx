@@ -75,10 +75,15 @@ function Navbar() {
                 borderBottomWidth: "1.5px",
                 borderBottomStyle: "solid",
                 borderBottomColor: "transparent",
-                transition: "all 0.3s ease-in-out",
+                transition: "all 0.1s ease-in-out",
             }}
         >
-            <Flex alignItems="center" justifyContent="space-between" mx="auto">
+            <Flex
+                alignItems="center"
+                justifyContent="space-between"
+                mx="auto"
+                maxWidth="7xl"
+            >
                 <ScrollLink
                     to="home"
                     spy={true}
@@ -145,6 +150,7 @@ function Navbar() {
                         size="sm"
                         as={Link}
                         href="/signup"
+                        variant="outline"
                     >
                         Get Started
                     </Button>
@@ -160,83 +166,18 @@ function Navbar() {
                         onClick={toggleColorMode}
                         aria-label={""}
                         size="sm"
+                        variant="ghost"
                     />
                     <Box display={{ base: "inline-flex", md: "none" }}>
                         <IconButton
                             display={{ base: "flex", md: "none" }}
                             aria-label="Open menu"
                             fontSize="20px"
-                            color="gray.800"
-                            _dark={{ color: "inherit" }}
+                            colorScheme="blue"
                             variant="ghost"
                             icon={<AiOutlineMenu />}
                             onClick={mobileNav.onOpen}
                         />
-
-                        <VStack
-                            pos="absolute"
-                            top={mobileNav.isOpen ? "0%" : "-100%"}
-                            left={0}
-                            right={0}
-                            display={mobileNav.isOpen ? "flex" : "none"}
-                            opacity={mobileNav.isOpen ? "1" : "0"}
-                            transition="all 0.3s ease-in-out"
-                            flexDirection="column"
-                            p={2}
-                            pb={4}
-                            bg={mbg}
-                            spacing={3}
-                            rounded="sm"
-                            shadow="sm"
-                            as={motion.nav}
-                            animate={mobileNav.isOpen ? "open" : "closed"}
-                            variants={variants}
-                        >
-                            <CloseButton
-                                aria-label="Close menu"
-                                onClick={mobileNav.onClose}
-                            />
-
-                            <Button
-                                w="full"
-                                variant="ghost"
-                                as={ScrollLink}
-                                to="features"
-                                spy={true}
-                                smooth={true}
-                                duration={500}
-                                offset={-70}
-                                onClick={mobileNav.onClose}
-                                cursor="pointer"
-                            >
-                                Features
-                            </Button>
-                            <Button
-                                w="full"
-                                variant="ghost"
-                                as={ScrollLink}
-                                to="pricing"
-                                spy={true}
-                                smooth={true}
-                                duration={500}
-                                offset={-70}
-                                onClick={mobileNav.onClose}
-                                cursor="pointer"
-                            >
-                                Pricing
-                            </Button>
-
-                            <Button
-                                w="full"
-                                variant="ghost"
-                                as={Link}
-                                href="/signin"
-                                onClick={mobileNav.onClose}
-                                cursor="pointer"
-                            >
-                                Sign in
-                            </Button>
-                        </VStack>
                     </Box>
                 </HStack>
             </Flex>

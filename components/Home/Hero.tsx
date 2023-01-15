@@ -113,7 +113,7 @@ function Hero() {
                     </Button>
                     <Button
                         as="a"
-                        colorScheme="gray"
+                        colorScheme="blue"
                         display="inline-flex"
                         alignItems="center"
                         justifyContent="center"
@@ -122,6 +122,7 @@ function Hero() {
                         size="lg"
                         cursor="pointer"
                         href="/mysites/home"
+                        variant="outline"
                     >
                         View Your Websites
                         <Icon

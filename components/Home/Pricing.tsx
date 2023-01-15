@@ -10,7 +10,7 @@ import {
     Icon,
     Button,
 } from "@chakra-ui/react"
-import { motion, Variants } from "framer-motion"
+import { motion } from "framer-motion"
 
 function Pricing() {
     const topBg = useColorModeValue("gray.100", "gray.700")
@@ -30,10 +30,7 @@ function Pricing() {
             <Flex
                 align="center"
                 as={motion.div}
-                initial="offscreen"
-                whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                variants={variants}
             >
                 <Flex shrink={0}>
                     <Icon
@@ -64,22 +61,7 @@ function Pricing() {
             </Flex>
         )
     }
-    const variants: Variants = {
-        offscreen: {
-            opacity: 0,
-            y: "-100%",
-        },
-        onscreen: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                type: "spring",
-                bounce: 0.4,
-                duration: 1,
-                delay: 0.5,
-            },
-        },
-    }
+
     return (
         <Flex
             boxSize="full"
@@ -122,38 +104,23 @@ function Pricing() {
                             mb="100px"
                             textAlign="left"
                             direction={{ base: "column", lg: "row" }}
-                            as={motion.div}
-                            initial="offscreen"
-                            whileInView="onscreen"
-                            viewport={{ once: true, amount: 0.8 }}
-                            variants={variants}
                         >
                             <Stack spacing={8} p="45px" flex="0.7">
                                 <Text
                                     fontSize="3xl"
                                     fontWeight="bold"
                                     lineHeight="tight"
-                                    as={motion.div}
-                                    initial="offscreen"
-                                    whileInView="onscreen"
-                                    viewport={{ once: true, amount: 0.8 }}
-                                    variants={variants}
                                 >
-                                    Lifetime Membership
+                                    Free for Life
                                 </Text>
                                 <chakra.p
                                     fontSize={["sm", "md"]}
                                     color="gray.600"
                                     _dark={{ color: "gray.400" }}
-                                    as={motion.div}
-                                    initial="offscreen"
-                                    whileInView="onscreen"
-                                    viewport={{ once: true, amount: 0.8 }}
-                                    variants={variants}
                                 >
-                                    JumpStarterX Pro is free for students and
-                                    universities. Please get in touch with us
-                                    and provide proof of your status.
+                                    JumpStarterX Free comes with React.js, for
+                                    any other framwork you can buy the
+                                    JumpStarterX Pro for Next.js soon.
                                 </chakra.p>
                                 <Flex align="center">
                                     <Text
@@ -162,11 +129,6 @@ function Pricing() {
                                         fontWeight="semibold"
                                         textTransform="uppercase"
                                         color="blue.400"
-                                        as={motion.div}
-                                        initial="offscreen"
-                                        whileInView="onscreen"
-                                        viewport={{ once: true, amount: 0.8 }}
-                                        variants={variants}
                                     >
                                         What&apos;s included
                                     </Text>
@@ -179,14 +141,9 @@ function Pricing() {
                                     />
                                 </Flex>
                                 <SimpleGrid columns={[1, 2, 1, 2]} spacingY={4}>
-                                    <Feature>
-                                        Dowloadable and Github Integration
-                                    </Feature>
+                                    <Feature>Downloadable</Feature>
                                     <Feature>Editing Tutorials</Feature>
-                                    <Feature>
-                                        Private Discord Access (For Any
-                                        Technical Support)
-                                    </Feature>
+                                    <Feature>Discord Support</Feature>
                                 </SimpleGrid>
                             </Stack>
                             <Stack
@@ -198,56 +155,19 @@ function Pricing() {
                                 _dark={{ bg: "gray.900" }}
                                 borderRightRadius="md"
                             >
-                                <Text
-                                    fontSize="xl"
-                                    fontWeight="semibold"
-                                    as={motion.div}
-                                    initial="offscreen"
-                                    whileInView="onscreen"
-                                    viewport={{ once: true, amount: 0.8 }}
-                                    variants={variants}
-                                >
-                                    Pay once, use anytime
+                                <Text fontSize="xl" fontWeight="semibold">
+                                    No framework
                                 </Text>
                                 <Flex
                                     align="center"
                                     fontSize="5xl"
                                     fontWeight={["bold", "extrabold"]}
                                     lineHeight="tight"
-                                    as={motion.div}
-                                    initial="offscreen"
-                                    whileInView="onscreen"
-                                    viewport={{ once: true, amount: 0.8 }}
-                                    variants={variants}
                                 >
-                                    $25
-                                    <chakra.span
-                                        ml={2}
-                                        fontSize="2xl"
-                                        fontWeight="medium"
-                                        color="gray.500"
-                                        _dark={{ color: "gray.400" }}
-                                        as={motion.div}
-                                        initial="offscreen"
-                                        whileInView="onscreen"
-                                        viewport={{ once: true, amount: 0.8 }}
-                                        variants={variants}
-                                    >
-                                        {" "}
-                                        USD
-                                    </chakra.span>
+                                    Free
                                 </Flex>
                                 <Stack spacing={6}>
-                                    <Button
-                                        w="300px"
-                                        colorScheme="blue"
-                                        py={6}
-                                        as={motion.div}
-                                        initial="offscreen"
-                                        whileInView="onscreen"
-                                        viewport={{ once: true, amount: 0.8 }}
-                                        variants={variants}
-                                    >
+                                    <Button w="300px" colorScheme="blue" py={6}>
                                         Get Started
                                     </Button>
                                 </Stack>

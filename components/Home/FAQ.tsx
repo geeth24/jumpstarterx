@@ -11,18 +11,7 @@ import React from "react"
 
 function FAQ() {
     return (
-        <Box
-            bg="#edf3f8"
-            _dark={{ bg: "#2c374b" }}
-            p={20}
-            w="auto"
-            justifyContent="center"
-            alignItems="center"
-            id="faq"
-        >
-            <Heading as="h2" size="xl" mb={10}>
-                Frequently Asked Questions
-            </Heading>
+        <Box w="auto" justifyContent="center" alignItems="center">
             <Box
                 maxW="6xl"
                 mx="auto"
@@ -33,6 +22,9 @@ function FAQ() {
                 p={10}
                 shadow="xl"
             >
+                <Heading as="h2" size="xl" mb={10} id="faq">
+                    Frequently Asked Questions
+                </Heading>
                 <Accordion allowToggle>
                     <AccordionItem>
                         <h2>
