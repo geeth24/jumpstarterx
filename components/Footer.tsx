@@ -92,7 +92,8 @@ function Footer() {
                             </Box>
                         </Link>
                         <Text fontSize={"sm"}>
-                            © 2022 JumpStarterX. All rights reserved
+                            © {new Date().getFullYear()} JumpStarterX. All
+                            rights reserved
                         </Text>
                         <Stack direction={"row"} spacing={6}>
                             <SocialButton label={"Twitter"} href={"#"}>
