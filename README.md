@@ -17,7 +17,6 @@ JumpStarterX is a responsive Next.js application that helps developers or studen
 ## Demo
 https://jumpstarterx.com
 
-
 ## Tech Stack
 
 **Client:** Next.js, ChakraUI, Framer Motion
