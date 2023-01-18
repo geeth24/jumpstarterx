@@ -11,9 +11,11 @@ function SHome({ searchInput }: SHomeProps) {
     // @ts-ignore
     const { user, isLoading, getUserData } = UserAuth()
 
+    //get user data only once
     React.useEffect(() => {
         getUserData()
-    }, [getUserData])
+    })
+
     return (
         <>
             <Box as="main" p="4">
