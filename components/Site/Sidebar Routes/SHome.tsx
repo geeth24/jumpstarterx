@@ -12,9 +12,9 @@ function SHome({ searchInput }: SHomeProps) {
     const { user, isLoading, getUserData } = UserAuth()
 
     //get user data only once
-    React.useEffect(() => {
-        getUserData()
-    })
+    // React.useEffect(() => {
+    //     getUserData()
+    // })
 
     return (
         <>
