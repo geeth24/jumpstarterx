@@ -492,8 +492,8 @@ root.render(
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-    "jsx: "npm install && npm run start"
+    "eject": "react-scripts eject",
+    "jsx": "npm install && npm run start"
   },
   "eslintConfig": {
     "extends": [
