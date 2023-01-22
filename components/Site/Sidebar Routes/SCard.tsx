@@ -36,6 +36,7 @@ import { encode as base64_encode } from "base-64"
 import { getDoc, doc, deleteDoc, collection, getDocs } from "firebase/firestore"
 import { auth, db } from "../../../utils/Firebase"
 import { UserAuth } from "../../context/AuthContext"
+import { motion } from "framer-motion"
 // import { downloadFolderAsZipPublic } from "../../../utils/Zip"
 
 const SCard = (props: any) => {
@@ -425,6 +426,11 @@ export const config = {
             rounded="lg"
             overflow="hidden"
             mx="auto"
+            as={motion.div}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition="linear 0.2s"
         >
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 {overlay}

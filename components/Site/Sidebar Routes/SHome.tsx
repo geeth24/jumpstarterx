@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Image, SimpleGrid, VStack } from "@chakra-ui/react"
+import { AnimatePresence } from "framer-motion"
 import React from "react"
 import { UserAuth } from "../../context/AuthContext"
 import SCard from "./SCard"
@@ -38,26 +39,28 @@ function SHome({ searchInput }: SHomeProps) {
                     </Flex>
                 ) : null}
                 <SimpleGrid columns={[1, 1, 2, 3]} spacing={12}>
-                    {user.sites
-                        ?.filter((site: any) => {
-                            if (searchInput === "") {
-                                return site
-                            } else if (
-                                site.title
-                                    .toLowerCase()
-                                    .includes(searchInput.toLowerCase())
-                            ) {
-                                return site
-                            }
-                            return null
-                        })
-                        ?.map((site: any, index: any) => (
-                            <SCard
-                                key={index}
-                                id={site.id}
-                                title={site.title}
-                            />
-                        ))}
+                    <AnimatePresence>
+                        {user.sites
+                            ?.filter((site: any) => {
+                                if (searchInput === "") {
+                                    return site
+                                } else if (
+                                    site.title
+                                        .toLowerCase()
+                                        .includes(searchInput.toLowerCase())
+                                ) {
+                                    return site
+                                }
+                                return null
+                            })
+                            ?.map((site: any, index: any) => (
+                                <SCard
+                                    key={index}
+                                    id={site.id}
+                                    title={site.title}
+                                />
+                            ))}
+                    </AnimatePresence>
                 </SimpleGrid>
             </Box>
         </>
