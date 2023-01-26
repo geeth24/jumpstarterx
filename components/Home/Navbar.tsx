@@ -185,7 +185,7 @@ function Navbar() {
                                 left={0}
                                 right={0}
                                 display="flex"
-                                opacity={1}
+                                opacity={mobileNav.isOpen ? 1 : 0}
                                 transition="linear 0.2s"
                                 flexDirection="column"
                                 p={2}
