@@ -18,7 +18,7 @@ import { Link as ScrollLink } from "react-scroll"
 // import { Link as LinkRouter } from "react-router-dom"
 import { FDLogo } from "../FDLogo"
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
 
 function Navbar() {
@@ -33,7 +33,7 @@ function Navbar() {
         "linear(to-r, blue.400, blue.600)" // dark
     )
     const variants = {
-        open: { opacity: 1, x: 0 },
+        open: { opacity: 1, y: "0%" },
         closed: { opacity: 0, y: "-100%" },
     }
 
@@ -178,6 +178,72 @@ function Navbar() {
                             icon={<AiOutlineMenu />}
                             onClick={mobileNav.onOpen}
                         />
+                        <AnimatePresence>
+                            <VStack
+                                pos="absolute"
+                                top={0}
+                                left={0}
+                                right={0}
+                                display="flex"
+                                opacity={1}
+                                transition="linear 0.2s"
+                                flexDirection="column"
+                                p={2}
+                                pb={4}
+                                bg={mbg}
+                                spacing={3}
+                                rounded="sm"
+                                shadow="sm"
+                                as={motion.nav}
+                                animate={mobileNav.isOpen ? "open" : "closed"}
+                                variants={variants}
+                            >
+                                <CloseButton
+                                    aria-label="Close menu"
+                                    onClick={mobileNav.onClose}
+                                />
+
+                                <Button
+                                    w="full"
+                                    variant="ghost"
+                                    as={ScrollLink}
+                                    to="features"
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-70}
+                                    onClick={mobileNav.onClose}
+                                    cursor="pointer"
+                                >
+                                    Features
+                                </Button>
+                                <Button
+                                    w="full"
+                                    variant="ghost"
+                                    as={ScrollLink}
+                                    to="pricing"
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-70}
+                                    onClick={mobileNav.onClose}
+                                    cursor="pointer"
+                                >
+                                    Pricing
+                                </Button>
+
+                                <Button
+                                    w="full"
+                                    variant="ghost"
+                                    as={Link}
+                                    href="/signin"
+                                    onClick={mobileNav.onClose}
+                                    cursor="pointer"
+                                >
+                                    Sign in
+                                </Button>
+                            </VStack>
+                        </AnimatePresence>
                     </Box>
                 </HStack>
             </Flex>

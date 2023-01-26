@@ -18,6 +18,7 @@ import {
     Text,
     Code,
     IconButton,
+    useMediaQuery,
 } from "@chakra-ui/react"
 
 import { FaDownload, FaEdit, FaTrash } from "react-icons/fa"
@@ -37,6 +38,7 @@ import { getDoc, doc, deleteDoc, collection, getDocs } from "firebase/firestore"
 import { auth, db } from "../../../utils/Firebase"
 import { UserAuth } from "../../context/AuthContext"
 import { motion } from "framer-motion"
+import { constants } from "zlib"
 // import { downloadFolderAsZipPublic } from "../../../utils/Zip"
 
 const SCard = (props: any) => {
@@ -417,6 +419,8 @@ export const config = {
         getUserData()
     }
 
+    const media = useMediaQuery("(max-width: 600px)")
+
     return (
         <Box
             w="xs"
@@ -427,9 +431,9 @@ export const config = {
             overflow="hidden"
             mx="auto"
             as={motion.div}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
+            initial={{ opacity: 0, x: media ? 0 : 100, y: media ? 100 : 0 }}
+            animate={{ opacity: 1, x: media ? 0 : 0, y: media ? 0 : 0 }}
+            exit={{ opacity: 0, x: media ? 0 : -100, y: media ? -100 : 0 }}
             transition="linear 0.2s"
         >
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
