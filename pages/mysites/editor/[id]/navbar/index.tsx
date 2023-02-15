@@ -4,7 +4,7 @@ import NavEditor from "../../../../../components/Site/Editor/NavEditor"
 function NavbarElement() {
     return (
         <>
-            <NavEditor />
+            {/* <NavEditor /> */}
         </>
     )
 }

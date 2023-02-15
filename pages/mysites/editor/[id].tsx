@@ -1,13 +1,29 @@
-import { Box, Flex, SimpleGrid, Spinner } from "@chakra-ui/react"
+import { Box, Flex, Spinner, useToast } from "@chakra-ui/react"
+import { doc, getDoc, updateDoc } from "@firebase/firestore"
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    uploadString,
+} from "firebase/storage"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import React from "react"
-import { UserAuth } from "../../../components/context/AuthContext"
+import React, { useEffect, useState } from "react"
 import Footer from "../../../components/Footer"
-import ECard from "../../../components/Site/Editor/ECard"
 import ENavbar from "../../../components/Site/Editor/ENavbar"
+import {
+    navbar1,
+    navbar2,
+    navbar3,
+} from "../../../elements/navbars/navbar.config"
+import { auth, db } from "../../../utils/Firebase"
+import { encode as base64_encode } from "base-64"
+import NavEditor from "../../../components/Site/Editor/NavEditor"
+import { UserAuth } from "../../../components/context/AuthContext"
+import HeroEditor from "../../../components/Site/Editor/HeroEditor"
 
-function Elements() {
+function Builder() {
     const router = useRouter()
     const { id } = router.query
     const [isLoading, setIsLoading] = React.useState(true)
@@ -36,7 +52,14 @@ function Elements() {
                 <title>Editor | JumpStarterX</title>
             </Head>
             <ENavbar />
-            <Box as="main" p="4">
+            <Box
+                as="main"
+                p="4"
+                bg={`${siteData?.themeColor}.50`}
+                _dark={{
+                    bg: `${siteData?.themeColor}.900`,
+                }}
+            >
                 <Box textAlign="center" p="10">
                     {isLoading ? (
                         <Flex
@@ -52,50 +75,10 @@ function Elements() {
                             />
                         </Flex>
                     ) : (
-                        <SimpleGrid columns={[1, 1, 2, 3]} spacing={12}>
-                            <ECard
-                                title="Navbar"
-                                image="/navbar.svg"
-                                id={id}
-                                link="navbar"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                            <ECard
-                                title="Hero"
-                                image="/hero.svg"
-                                id={id}
-                                link="hero"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                            <ECard
-                                title="About"
-                                image="/about.svg"
-                                id={id}
-                                link="about"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                            <ECard
-                                title="Portfolio"
-                                image="/portfolio.svg"
-                                id={id}
-                                link="portfolio"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                            <ECard
-                                title="Contact"
-                                image="/contact.svg"
-                                id={id}
-                                link="contact"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                            <ECard
-                                title="Footer"
-                                image="/footer.svg"
-                                id={id}
-                                link="footer"
-                                themeColor={siteData?.themeColor || "blue"}
-                            />
-                        </SimpleGrid>
+                        <>
+                            <NavEditor />
+                            <HeroEditor />
+                        </>
                     )}
                 </Box>
             </Box>
@@ -104,4 +87,4 @@ function Elements() {
     )
 }
 
-export default Elements
+export default Builder

@@ -115,7 +115,7 @@ function ENavbar() {
                                     as={Link}
                                     href={"/mysites/editor/" + id}
                                 >
-                                    Components
+                                    Editor
                                 </Button>
                                 <Button
                                     w="full"
@@ -178,7 +178,7 @@ function ENavbar() {
                                 as={Link}
                                 href={"/mysites/editor/" + id}
                             >
-                                Components
+                                Editor
                             </Button>
                             <Button
                                 variant="ghost"

@@ -8,3 +8,11 @@ export interface NavbarProps {
     themeColor: string
     logo: string
 }
+
+export interface HeroProps {
+    heading: string
+    subheading: string
+    description: string
+    image: string
+    themeColor: string
+}

@@ -1,47 +1,58 @@
-import React, { useEffect, useState } from "react"
 import {
-    Box,
     Button,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
     FormLabel,
-    Grid,
-    GridItem,
     HStack,
+    IconButton,
     Input,
-    Radio,
-    RadioGroup,
+    useColorModeValue,
+    useDisclosure,
+    VStack,
     Text,
     useToast,
-    VStack,
 } from "@chakra-ui/react"
-import Navbar1 from "../../../elements/navbars/Navbar1"
-import Navbar2 from "../../../elements/navbars/Navbar2"
-import Navbar3 from "../../../elements/navbars/Navbar3"
-
+import { getDoc, updateDoc, doc } from "firebase/firestore"
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    uploadString,
+} from "firebase/storage"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import React, { useEffect, useState } from "react"
+import { FaEdit } from "react-icons/fa"
+import { FiUploadCloud } from "react-icons/fi"
 import {
     navbar1,
     navbar2,
     navbar3,
 } from "../../../elements/navbars/navbar.config"
-
+import Navbar1 from "../../../elements/navbars/Navbar1"
+import Navbar2 from "../../../elements/navbars/Navbar2"
+import Navbar3 from "../../../elements/navbars/Navbar3"
 import { auth, db } from "../../../utils/Firebase"
-import { doc, getDoc, updateDoc } from "@firebase/firestore"
 import { encode as base64_encode } from "base-64"
-import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytes,
-    uploadString,
-} from "firebase/storage"
-import ENavbar from "./ENavbar"
-// import { fdLogo } from "../../FDLogo"
 
-import { useRouter } from "next/router"
-import { FiUploadCloud } from "react-icons/fi"
 function NavEditor() {
+    const {
+        isOpen: NavEditorIsOpen,
+        onOpen: NavEditorOnOpen,
+        onClose: NavEditorOnClose,
+    } = useDisclosure()
+    const btnRef = React.useRef<HTMLButtonElement>(null)
+
+    const colorMode = useColorModeValue("#3182ce", "#90CDF4")
+
     const router = useRouter()
     const { id } = router.query
-
     const [value, setValue] = React.useState("3")
     const [navbarNumber, setNavbarNumber] = useState("3")
 
@@ -208,221 +219,217 @@ function NavEditor() {
         await upload()
         setNavbarNumber(value)
 
-        // const download = async () => {
-        //   setIsLoading(true);
-        //   await downloadString(storageRef);
-        //   setIsLoading(false);
-        // };
-        // const downloadString = async (ref: StorageReference) => {
-        //   const url = await getDownloadURL(ref);
-        //   const xhr = new XMLHttpRequest();
-        //   xhr.responseType = 'blob';
-        //   xhr.onload = (_event) => {
-        //     const blob = xhr.response;
-        //     const url = window.URL.createObjectURL(blob);
-        //     const link = document.createElement('a');
-        //     link.href = url;
-        //     link.download = 'Navbar.jsx';
-        //     link.click();
-        //   };
-        //   xhr.open('GET', url);
-        //   xhr.send();
-        // };
-        // download();
-
         setIsLoading(false)
     }
 
     return (
         <>
-            <ENavbar />
-            <Text fontSize="2xl" fontWeight="bold" mb={4} align="center" mt={5}>
-                Navbar Preview
-            </Text>
-            {value === "1" && (
-                <Navbar1
-                    company={company}
-                    tab1={tab1}
-                    tab2={tab2}
-                    tab3={tab3}
-                    tab4={tab4}
-                    tab5={tab5}
-                    themeColor={themeColor}
-                    logo={logo}
-                />
-            )}
-            {value === "2" && (
-                <Navbar2
-                    company={company}
-                    tab1={tab1}
-                    tab2={tab2}
-                    tab3={tab3}
-                    tab4={tab4}
-                    tab5={tab5}
-                    themeColor={themeColor}
-                    logo={logo}
-                />
-            )}
-            {value === "3" && (
-                <Navbar3
-                    company={company}
-                    tab1={tab1}
-                    tab2={tab2}
-                    tab3={tab3}
-                    tab4={tab4}
-                    tab5={tab5}
-                    themeColor={themeColor}
-                    logo={logo}
-                />
-            )}
-
-            <Box
-                as="section"
-                bg="gray.50"
-                _dark={{ bg: "gray.700" }}
-                minH="80vh"
+            <Drawer
+                isOpen={NavEditorIsOpen}
+                placement="right"
+                onClose={NavEditorOnClose}
+                finalFocusRef={btnRef}
             >
-                <Grid templateColumns="repeat(12, 1fr)" gap={6} py={12}>
-                    <GridItem colSpan={{ base: 12, md: 6 }}>
-                        <VStack spacing={8}>
-                            <Text fontSize="2xl" fontWeight="bold" mb={4}>
-                                Edit Your Navigation Bar
-                            </Text>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Edit Your Navbar</DrawerHeader>
 
-                            <Box
-                                bg="blue.300"
-                                h={64}
-                                w="sm"
-                                rounded="lg"
-                                shadow="2xl"
-                                bgSize="contain"
-                                bgPos="center"
+                    <DrawerBody>
+                        <VStack spacing="10px" align="left">
+                            <Image
+                                src="/editor/navbar/navbar1.png"
+                                width={300}
+                                height={100}
+                                alt={""}
                                 style={{
-                                    backgroundImage: `url("/navbar.svg")`,
-                                    backgroundRepeat: "no-repeat",
+                                    cursor: "pointer",
+                                    border:
+                                        value === "1"
+                                            ? `2px solid ${colorMode}`
+                                            : "none",
+                                    borderRadius: "5px",
+                                    opacity: value === "1" ? 1 : 0.5,
                                 }}
+                                onClick={() => setValue("1")}
                             />
-                        </VStack>
-                    </GridItem>
-                    <GridItem colSpan={{ base: 12, md: 6 }}>
-                        <VStack spacing={4} align="left" w="sm">
-                            <VStack spacing={4} align="center" w="sm">
-                                <RadioGroup onChange={setValue} value={value}>
-                                    <HStack spacing={4}>
-                                        <Radio value="1">Navbar 1</Radio>
-                                        <Radio value="2">Navbar 2</Radio>
-                                        <Radio value="3">Navbar 3</Radio>
-                                    </HStack>
-                                </RadioGroup>
-                                <Text fontSize="sm" fontWeight="bold" mb={4}>
-                                    Current Navbar: {navbarNumber}
-                                </Text>
-                            </VStack>
-                            <HStack spacing={4} align="top">
-                                <Box>
-                                    <FormLabel mt={4}>Brand Name</FormLabel>
-                                    <Input
-                                        placeholder="Brand Name"
-                                        value={company}
-                                        onChange={(e) =>
-                                            setCompany(e.target.value)
-                                        }
-                                    />
+                            <Image
+                                src="/editor/navbar/navbar2.png"
+                                width={300}
+                                height={100}
+                                alt={""}
+                                style={{
+                                    cursor: "pointer",
+                                    border:
+                                        value === "2"
+                                            ? `2px solid ${colorMode}`
+                                            : "none",
+                                    borderRadius: "5px",
+                                    opacity: value === "2" ? 1 : 0.5,
+                                }}
+                                onClick={() => setValue("2")}
+                            />
+                            <Image
+                                src="/editor/navbar/navbar3.png"
+                                width={300}
+                                height={100}
+                                alt={""}
+                                style={{
+                                    cursor: "pointer",
+                                    border:
+                                        value === "3"
+                                            ? `2px solid ${colorMode}`
+                                            : "none",
+                                    borderRadius: "5px",
+                                    opacity: value === "3" ? 1 : 0.5,
+                                }}
+                                onClick={() => setValue("3")}
+                            />
 
-                                    <FormLabel mt={4}>Tab 1</FormLabel>
-                                    <Input
-                                        placeholder="Tab 1"
-                                        value={tab1}
-                                        onChange={(e) =>
-                                            setTab1(e.target.value)
-                                        }
-                                    />
-                                    <FormLabel mt={4}>Tab 2</FormLabel>
-                                    <Input
-                                        placeholder="Tab 2"
-                                        value={tab2}
-                                        onChange={(e) =>
-                                            setTab2(e.target.value)
-                                        }
-                                    />
-                                    <FormLabel mt={4}>Tab 3</FormLabel>
-                                    <Input
-                                        placeholder="Tab 3"
-                                        value={tab3}
-                                        onChange={(e) =>
-                                            setTab3(e.target.value)
-                                        }
-                                    />
-                                </Box>
-                                <Box>
-                                    <FormLabel mt={4}>Tab 4</FormLabel>
-                                    <Input
-                                        placeholder="Tab 4"
-                                        value={tab4}
-                                        onChange={(e) =>
-                                            setTab4(e.target.value)
-                                        }
-                                    />
-                                    {value !== "2" ? (
-                                        <>
-                                            <FormLabel mt={4}>Tab 5</FormLabel>
-                                            <Input
-                                                placeholder="Tab 5"
-                                                value={tab5}
-                                                onChange={(e) =>
-                                                    setTab5(e.target.value)
-                                                }
-                                            />
-                                        </>
-                                    ) : (
-                                        <></>
-                                    )}
-
-                                    <FormLabel mt={4}>Logo</FormLabel>
-                                    <FormLabel
-                                        onChange={handleChangeFile}
-                                        cursor="pointer"
-                                        shadow="md"
-                                        borderWidth="1px"
-                                        p={4}
-                                        rounded="md"
-                                    >
-                                        <HStack spacing={4}>
-                                            <FiUploadCloud />
-                                            <Text fontSize="sm">
-                                                Upload Image
-                                            </Text>
-                                        </HStack>
-                                        <Input
-                                            type="file"
-                                            style={{
-                                                display: "none",
-                                            }}
-                                            // @ts-ignore
-                                            name={selectedFile?.name}
-                                            //accepted file types images
-                                            accept="image/*"
-                                        />
-                                        <Text fontSize="sm">
-                                            {/* @ts-ignore */}
-                                            {selectedFile?.name}
-                                        </Text>
-                                    </FormLabel>
-                                </Box>
-                            </HStack>
-
-                            <Button
-                                onClick={updateNavData}
-                                isLoading={isLoading}
-                                colorScheme="blue"
-                                isDisabled={!uploaded}
+                            <FormLabel mt={4}>Logo</FormLabel>
+                            <FormLabel
+                                onChange={handleChangeFile}
+                                cursor="pointer"
+                                shadow="md"
+                                borderWidth="1px"
+                                p={4}
+                                rounded="md"
                             >
-                                Update
-                            </Button>
+                                <HStack spacing={4}>
+                                    <FiUploadCloud />
+                                    <Text fontSize="sm">Upload Image</Text>
+                                </HStack>
+                                <Input
+                                    type="file"
+                                    style={{
+                                        display: "none",
+                                    }}
+                                    // @ts-ignore
+                                    name={selectedFile?.name}
+                                    //accepted file types images
+                                    accept="image/*"
+                                />
+                                <Text fontSize="sm">
+                                    {/* @ts-ignore */}
+                                    {selectedFile?.name}
+                                </Text>
+                            </FormLabel>
+                            <FormLabel mt={4}>Brand Name</FormLabel>
+                            <Input
+                                placeholder="Brand Name"
+                                value={company}
+                                onChange={(e) => setCompany(e.target.value)}
+                            />
+
+                            <FormLabel mt={4}>Tab 1</FormLabel>
+                            <Input
+                                placeholder="Tab 1"
+                                value={tab1}
+                                onChange={(e) => setTab1(e.target.value)}
+                            />
+                            <FormLabel mt={4}>Tab 2</FormLabel>
+                            <Input
+                                placeholder="Tab 2"
+                                value={tab2}
+                                onChange={(e) => setTab2(e.target.value)}
+                            />
+                            <FormLabel mt={4}>Tab 3</FormLabel>
+                            <Input
+                                placeholder="Tab 3"
+                                value={tab3}
+                                onChange={(e) => setTab3(e.target.value)}
+                            />
+                            <FormLabel mt={4}>Tab 4</FormLabel>
+                            <Input
+                                placeholder="Tab 4"
+                                value={tab4}
+                                onChange={(e) => setTab4(e.target.value)}
+                            />
+                            {value !== "2" ? (
+                                <>
+                                    <FormLabel mt={4}>Tab 5</FormLabel>
+                                    <Input
+                                        placeholder="Tab 5"
+                                        value={tab5}
+                                        onChange={(e) =>
+                                            setTab5(e.target.value)
+                                        }
+                                    />
+                                </>
+                            ) : (
+                                <></>
+                            )}
                         </VStack>
-                    </GridItem>
-                </Grid>
-            </Box>
+                    </DrawerBody>
+
+                    <DrawerFooter>
+                        <Button
+                            variant="outline"
+                            mr={3}
+                            onClick={NavEditorOnClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            colorScheme="blue"
+                            onClick={() => {
+                                setNavbarNumber(value)
+                                updateNavData()
+                                NavEditorOnClose()
+                            }}
+                            isLoading={isLoading}
+                            isDisabled={!uploaded}
+                        >
+                            Save
+                        </Button>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+            <HStack spacing="10px">
+                {value === "1" && (
+                    <Navbar1
+                        company={company}
+                        tab1={tab1}
+                        tab2={tab2}
+                        tab3={tab3}
+                        tab4={tab4}
+                        tab5={tab5}
+                        themeColor={themeColor}
+                        logo={logo}
+                    />
+                )}
+                {value === "2" && (
+                    <Navbar2
+                        company={company}
+                        tab1={tab1}
+                        tab2={tab2}
+                        tab3={tab3}
+                        tab4={tab4}
+                        tab5={tab5}
+                        themeColor={themeColor}
+                        logo={logo}
+                    />
+                )}
+                {value === "3" && (
+                    <Navbar3
+                        company={company}
+                        tab1={tab1}
+                        tab2={tab2}
+                        tab3={tab3}
+                        tab4={tab4}
+                        tab5={tab5}
+                        themeColor={themeColor}
+                        logo={logo}
+                    />
+                )}
+                <IconButton
+                    ref={btnRef}
+                    colorScheme={themeColor}
+                    onClick={NavEditorOnOpen}
+                    icon={<FaEdit />}
+                    aria-label="Edit"
+                />
+            </HStack>
         </>
     )
 }

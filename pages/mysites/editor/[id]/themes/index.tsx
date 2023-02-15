@@ -36,7 +36,6 @@ function SiteThemes() {
         "yellow",
         "green",
         "blue",
-        "blue",
         "cyan",
         "purple",
         "pink",
@@ -74,7 +73,7 @@ function SiteThemes() {
                         Select a theme
                     </Heading>
 
-                    <VStack spacing="4" align="eft">
+                    <VStack spacing="4" align="left">
                         <Select
                             placeholder="Select theme"
                             onChange={(e) => setSelectedTheme(e.target.value)}

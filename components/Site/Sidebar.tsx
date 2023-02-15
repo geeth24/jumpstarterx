@@ -201,6 +201,7 @@ function Sidebar({ tab }: SidebarProps) {
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",
                         image: "https://cloud.geethg.com/code.png",
+                        heroNumber: "1",
                     }
                 )
                 await setDoc(
@@ -219,7 +220,7 @@ function Sidebar({ tab }: SidebarProps) {
                         heading: "React.js Website Builder",
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",
-                        image: "https://cloud.geethg.com/code.png",
+                        image: "https://jumpstarterx.com/hero.svg",
                     }
                 )
                 const publicFiles = async () => {
@@ -891,9 +892,30 @@ export const config = {
                                         variant="flushed"
                                         value={newSiteTitle}
                                         onChange={(e) => {
+                                            //if e contain capital letters anywhere or spaces set invalid to true
+                                            if (
+                                                e.target.value
+                                                    .toLowerCase()
+                                                    .includes(" ") ||
+                                                e.target.value !==
+                                                    e.target.value.toLowerCase()
+                                            ) {
+                                                setInvalid(true)
+                                            } else {
+                                                setInvalid(false)
+                                            }
+
                                             setNewSiteTitle(e.target.value)
                                         }}
                                     />
+                                    {invalid ? (
+                                        <Text fontSize="sm" color="crimson">
+                                            Name cannot contain capital letters
+                                            or spaces
+                                        </Text>
+                                    ) : (
+                                        <></>
+                                    )}
 
                                     {isLoading ? (
                                         <Progress
@@ -935,10 +957,7 @@ export const config = {
                                                     onClick={() => {
                                                         createSite()
                                                     }}
-                                                    isDisabled={
-                                                        newSiteTitle.length ===
-                                                        0
-                                                    }
+                                                    isDisabled={invalid}
                                                 >
                                                     Create
                                                 </Button>
