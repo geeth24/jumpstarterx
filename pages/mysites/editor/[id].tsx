@@ -1,24 +1,9 @@
-import { Box, Flex, Spinner, useToast } from "@chakra-ui/react"
-import { doc, getDoc, updateDoc } from "@firebase/firestore"
-import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    uploadString,
-} from "firebase/storage"
+import { Box, Flex, Spinner, useMediaQuery, Text } from "@chakra-ui/react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Footer from "../../../components/Footer"
 import ENavbar from "../../../components/Site/Editor/ENavbar"
-import {
-    navbar1,
-    navbar2,
-    navbar3,
-} from "../../../elements/navbars/navbar.config"
-import { auth, db } from "../../../utils/Firebase"
-import { encode as base64_encode } from "base-64"
 import NavEditor from "../../../components/Site/Editor/NavEditor"
 import { UserAuth } from "../../../components/context/AuthContext"
 import HeroEditor from "../../../components/Site/Editor/HeroEditor"
@@ -45,6 +30,7 @@ function Builder() {
     }, [user.sites, id])
 
     console.log(siteData)
+    const [isLargerThan500] = useMediaQuery("(min-width: 500px)")
 
     return (
         <>
@@ -76,8 +62,19 @@ function Builder() {
                         </Flex>
                     ) : (
                         <>
-                            <NavEditor />
-                            <HeroEditor />
+                            {isLargerThan500 ? (
+                                <>
+                                    <NavEditor />
+                                    <HeroEditor />
+                                </>
+                            ) : (
+                                <>
+                                    <Text fontSize="xl" fontWeight="bold">
+                                        Please use a larger screen to edit your
+                                        site
+                                    </Text>
+                                </>
+                            )}
                         </>
                     )}
                 </Box>
