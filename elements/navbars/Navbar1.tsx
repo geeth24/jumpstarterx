@@ -32,7 +32,7 @@ const Navbar1 = (props: NavbarProps) => {
                 <Flex
                     alignItems="center"
                     justifyContent="space-between"
-                    mx="auto"
+                    mx="auto"    
                 >
                     <Flex display="flex" alignItems="center">
                         <chakra.a

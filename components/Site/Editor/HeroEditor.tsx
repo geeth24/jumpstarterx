@@ -347,7 +347,7 @@ function HeroEditor() {
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-            <HStack spacing="10px" align="flex-start">
+            <HStack spacing="10px" align="flex-start" position="relative">
                 {value === "1" && (
                     <Hero1
                         heading={heading}

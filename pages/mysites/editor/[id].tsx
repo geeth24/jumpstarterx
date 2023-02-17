@@ -37,7 +37,7 @@ function Builder() {
             <Head>
                 <title>Editor | JumpStarterX</title>
             </Head>
-            <ENavbar />
+            <ENavbar themeColor={siteData?.themeColor || "blue"} />
             <Box
                 as="main"
                 p="4"

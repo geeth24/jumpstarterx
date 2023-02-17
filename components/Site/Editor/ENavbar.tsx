@@ -27,7 +27,7 @@ import { HiCode, HiColorSwatch } from "react-icons/hi"
 import { UserAuth } from "../../context/AuthContext"
 import { FDLogo } from "../../FDLogo"
 
-function ENavbar() {
+function ENavbar(props: any) {
     const bg = useColorModeValue("white", "gray.800")
     const mobileNav = useDisclosure()
     const { colorMode, toggleColorMode } = useColorMode()
@@ -110,7 +110,7 @@ function ENavbar() {
                                 <Button
                                     w="full"
                                     variant="solid"
-                                    colorScheme="blue"
+                                    colorScheme={props.themeColor}
                                     leftIcon={<BsLayersFill />}
                                     as={Link}
                                     href={"/mysites/editor/" + id}
@@ -129,7 +129,7 @@ function ENavbar() {
                                 <Button
                                     w="full"
                                     variant="solid"
-                                    colorScheme="blue"
+                                    colorScheme={props.themeColor}
                                     leftIcon={<HiColorSwatch />}
                                     as={Link}
                                     href={"/mysites/editor/" + id + "/themes"}
@@ -173,7 +173,7 @@ function ENavbar() {
                             </Button>
                             <Button
                                 variant="solid"
-                                colorScheme="blue"
+                                colorScheme={props.themeColor}
                                 leftIcon={<BsLayersFill />}
                                 as={Link}
                                 href={"/mysites/editor/" + id}
@@ -190,7 +190,7 @@ function ENavbar() {
                             </Button>
                             <Button
                                 variant="solid"
-                                colorScheme="blue"
+                                colorScheme={props.themeColor}
                                 leftIcon={<HiColorSwatch />}
                                 as={Link}
                                 href={"/mysites/editor/" + id + "/themes"}
@@ -212,7 +212,7 @@ function ENavbar() {
                         display={mobileNav.isOpen ? "none" : "flex"}
                         alignItems="center"
                     >
-                        {/* <Button colorScheme="blue" leftIcon={<BsPlus />}>
+                        {/* <Button colorScheme={props.themeColor} leftIcon={<BsPlus />}>
               New Wallet
             </Button> */}
 
@@ -234,7 +234,7 @@ function ENavbar() {
                             <VisuallyHidden>Notifications</VisuallyHidden>
                         </chakra.a>
                         <IconButton
-                            colorScheme="blue"
+                            colorScheme={props.themeColor}
                             icon={
                                 colorMode === "light" ? (
                                     <BsFillMoonFill />

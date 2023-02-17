@@ -77,7 +77,7 @@ function SiteThemes() {
             <Head>
                 <title>Themes | JumpStarterX</title>
             </Head>
-            <ENavbar />
+            <ENavbar themeColor={siteData?.themeColor || "blue"} />
             <Flex as="main" p="4" justifyContent="center">
                 <Box textAlign="center" p="10" maxWidth="7xl">
                     <Heading as="h1" size="2xl" mb="4">
@@ -100,15 +100,15 @@ function SiteThemes() {
                                     p="2"
                                     bg={
                                         selectedTheme === theme
-                                            ? useColorModeValue(
-                                                  `${theme}.500`,
-                                                  `${theme}.50`
-                                              )
-                                            : useColorModeValue(
-                                                  `${theme}.50`,
-                                                  `${theme}.900`
-                                              )
+                                            ? `${theme}.500`
+                                            : `${theme}.50`
                                     }
+                                    _dark={{
+                                        bg:
+                                            selectedTheme === theme
+                                                ? `${theme}.50`
+                                                : `${theme}.900`,
+                                    }}
                                     cursor="pointer"
                                     onClick={() => setSelectedTheme(theme)}
                                     //add inner border
@@ -121,29 +121,29 @@ function SiteThemes() {
                                             h="10"
                                             bg={
                                                 selectedTheme === theme
-                                                    ? useColorModeValue(
-                                                          `${theme}.300`,
-                                                          `${theme}.500`
-                                                      )
-                                                    : useColorModeValue(
-                                                          `${theme}.500`,
-                                                          `${theme}.500`
-                                                      )
+                                                    ? `${theme}.300`
+                                                    : `${theme}.500`
                                             }
+                                            _dark={{
+                                                bg:
+                                                    selectedTheme === theme
+                                                        ? `${theme}.500`
+                                                        : `${theme}.500`,
+                                            }}
                                             borderRadius="full"
                                         />
                                         <Text
                                             color={
                                                 selectedTheme === theme
-                                                    ? useColorModeValue(
-                                                          `${theme}.100`,
-                                                          `${theme}.900`
-                                                      )
-                                                    : useColorModeValue(
-                                                          `${theme}.500`,
-                                                          `${theme}.500`
-                                                      )
+                                                    ? `${theme}.100`
+                                                    : `${theme}.500`
                                             }
+                                            _dark={{
+                                                color:
+                                                    selectedTheme === theme
+                                                        ? `${theme}.900`
+                                                        : `${theme}.500`,
+                                            }}
                                         >
                                             {theme.charAt(0).toUpperCase() +
                                                 theme.slice(1)}

@@ -180,7 +180,7 @@ function Sidebar({ tab }: SidebarProps) {
                         tab3: "Tab3",
                         tab4: "Tab4",
                         tab5: "Tab5",
-                        logo: "https://cloud.geethg.com/logo.png",
+                        logo: "https://jumpstarterx.com/logo.png",
                         navbarNumber: "3",
                     }
                 )
@@ -235,7 +235,7 @@ function Sidebar({ tab }: SidebarProps) {
                             "/public/" +
                             "logo.png"
                     )
-                    var imageURL = "https://cloud.geethg.com/logo.png"
+                    var imageURL = "https://jumpstarterx.com/logo.png"
                     //fetch using axios
 
                     const response = await axios.get(imageURL, {
@@ -253,7 +253,7 @@ function Sidebar({ tab }: SidebarProps) {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/FDLogo.png" />
+    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Web site created using JumpStarterX" />
     <meta
