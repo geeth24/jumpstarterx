@@ -57,7 +57,7 @@ function Builder() {
                                 size="xl"
                                 thickness="4px"
                                 speed="0.65s"
-                                color="blue.500"
+                                color={`${siteData?.themeColor || "blue"}.500`}
                             />
                         </Flex>
                     ) : (
