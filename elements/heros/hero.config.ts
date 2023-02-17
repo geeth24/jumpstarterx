@@ -54,7 +54,7 @@ export default function Hero({ id }) {
             >
               <Box
                 w="full"
-                textAlign={{ sm: "center", lg: "left" }}
+                textAlign="left"
                 justifyContent="center"
                 alignItems="center"
               >
@@ -71,8 +71,10 @@ export default function Hero({ id }) {
                   </chakra.span>
                   <chakra.span
                     display={{ base: "block", xl: "inline" }}
-                    color={config.themeColor + "700"}
-                    _dark={{ color: config.themeColor + "100" }}
+                    color={useColorModeValue(
+                      config.themeColor + ".700",
+                      config.themeColor + ".100"
+                    )}
                   >
                     {config.hero.subheading}
                   </chakra.span>

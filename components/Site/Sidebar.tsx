@@ -196,11 +196,11 @@ function Sidebar({ tab }: SidebarProps) {
                         "hero"
                     ),
                     {
-                        heading: "Create webites faster",
+                        heading: "Create websites faster",
                         subheading: "With JumpStarterX",
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",
-                        image: "https://cloud.geethg.com/code.png",
+                        image: "https://jumpstarterx.com/hero.svg",
                         heroNumber: "1",
                     }
                 )
@@ -233,9 +233,9 @@ function Sidebar({ tab }: SidebarProps) {
                             "/sites/" +
                             newSiteCollectionRef.id +
                             "/public/" +
-                            "FDLogo.png"
+                            "logo.png"
                     )
-                    var imageURL = "https://cloud.geethg.com/FDLogo.png"
+                    var imageURL = "https://cloud.geethg.com/logo.png"
                     //fetch using axios
 
                     const response = await axios.get(imageURL, {
@@ -253,7 +253,7 @@ function Sidebar({ tab }: SidebarProps) {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/FDLogo.png />
+    <link rel="icon" href="%PUBLIC_URL%/FDLogo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Web site created using JumpStarterX" />
     <meta
@@ -294,11 +294,11 @@ function Sidebar({ tab }: SidebarProps) {
 
                     var manifest = `
 {
-  "short_name": "${newSiteTitle}",
-  "name": "FD ${newSiteTitle}",
+  "short_name": "jsx-${newSiteTitle}",
+  "name": "JSX ${newSiteTitle}",
   "icons": [
     {
-      "src": "FDLogo.png",
+      "src": "logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -350,6 +350,7 @@ Disallow:
                     await uploadString(robotsRef, robotsBase64URL, "data_url")
 
                     var appjsx = `
+// Made with JumpStarterX                    
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";

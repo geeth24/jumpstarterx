@@ -58,6 +58,7 @@ function SHome({ searchInput }: SHomeProps) {
                                     key={index}
                                     id={site.id}
                                     title={site.title}
+                                    themeColor={site.themeColor}
                                 />
                             ))}
                     </AnimatePresence>

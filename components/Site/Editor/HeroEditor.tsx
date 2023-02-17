@@ -35,6 +35,7 @@ import { hero1 } from "../../../elements/heros/hero.config"
 import { auth, db } from "../../../utils/Firebase"
 import { encode as base64_encode } from "base-64"
 import Hero1 from "../../../elements/heros/Hero1"
+import Hero2 from "../../../elements/heros/Hero2"
 
 function HeroEditor() {
     const {
@@ -51,12 +52,10 @@ function HeroEditor() {
     const [value, setValue] = React.useState("1")
     const [heroNumber, setHeroNumber] = useState("1")
 
-    const [heading, setHeading] = useState("Create webites faster")
-    const [subheading, setSubheading] = useState("With JumpStarterX")
-    const [description, setDescription] = useState(
-        "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes."
-    )
-    const [image, setImage] = useState("/code.png")
+    const [heading, setHeading] = useState("")
+    const [subheading, setSubheading] = useState("")
+    const [description, setDescription] = useState("")
+    const [image, setImage] = useState("")
     const [themeColor, setThemeColor] = useState("blue")
 
     const [isLoading, setIsLoading] = useState(false)
@@ -172,16 +171,12 @@ function HeroEditor() {
             image: image,
             heroNumber: value,
         })
-        var hero = ``
-        if (value === "1") {
-            hero = hero1
-        }
-
-        const endcoded = base64_encode(hero)
-
-        var code = "data:text/javascript;base64," + endcoded
         const storage = getStorage()
-        const storageRef = ref(
+        const heroComponent = ref(
+            storage,
+            "components/" + "/heros" + `/hero${value}` + "/Hero.jsx"
+        )
+        const heroDestination = ref(
             storage,
             "users/" +
                 // @ts-ignore
@@ -194,12 +189,24 @@ function HeroEditor() {
                 "/Hero.jsx"
         )
 
-        const upload = async () => {
+        const copy = async () => {
             setIsLoading(true)
-            await uploadString(storageRef, code, "data_url")
+
+            //copy the file
+            await getDownloadURL(heroComponent)
+                .then((url) => {
+                    return fetch(url)
+                })
+                //make response a blob
+                .then((r) => r.blob())
+                //put the blob
+                .then((blobFile) => {
+                    uploadBytes(heroDestination, blobFile)
+                })
+
             setIsLoading(false)
         }
-        await upload()
+        await copy()
         setHeroNumber(value)
 
         setIsLoading(false)
@@ -235,6 +242,22 @@ function HeroEditor() {
                                     opacity: value === "1" ? 1 : 0.5,
                                 }}
                                 onClick={() => setValue("1")}
+                            />
+                            <Image
+                                src="/editor/hero/hero2.png"
+                                width={300}
+                                height={100}
+                                alt={""}
+                                style={{
+                                    cursor: "pointer",
+                                    border:
+                                        value === "2"
+                                            ? `2px solid ${colorMode}`
+                                            : "none",
+                                    borderRadius: "5px",
+                                    opacity: value === "2" ? 1 : 0.5,
+                                }}
+                                onClick={() => setValue("2")}
                             />
                             <FormLabel mt={4}>Image</FormLabel>
                             <FormLabel
@@ -334,7 +357,15 @@ function HeroEditor() {
                         image={image}
                     />
                 )}
-
+                {value === "2" && (
+                    <Hero2
+                        heading={heading}
+                        subheading={subheading}
+                        description={description}
+                        themeColor={themeColor}
+                        image={image}
+                    />
+                )}
                 <IconButton
                     ref={btnRef}
                     colorScheme={themeColor}

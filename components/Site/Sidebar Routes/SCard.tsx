@@ -462,14 +462,14 @@ export const config = {
                             <HStack>
                                 <Button
                                     onClick={onClose}
-                                    colorScheme="blue"
+                                    colorScheme={props.themeColor}
                                     variant="ghost"
                                     mr={3}
                                 >
                                     Close
                                 </Button>
                                 <Button
-                                    colorScheme="blue"
+                                    colorScheme={props.themeColor}
                                     isLoading={isLoading}
                                     onClick={() => {
                                         downloadFolderAsZipPublic(
@@ -504,7 +504,7 @@ export const config = {
                             <HStack>
                                 <Button
                                     onClick={onClose2}
-                                    colorScheme="blue"
+                                    colorScheme={props.themeColor}
                                     variant="ghost"
                                     mr={3}
                                 >
@@ -564,7 +564,7 @@ export const config = {
                     mt={4}
                 >
                     <Button
-                        colorScheme="blue"
+                        colorScheme={props.themeColor}
                         rightIcon={<FaEdit />}
                         as="a"
                         href={"/mysites/editor/" + props.id}
@@ -572,7 +572,7 @@ export const config = {
                         Edit
                     </Button>
                     <Button
-                        colorScheme="blue"
+                        colorScheme={props.themeColor}
                         rightIcon={<FaDownload />}
                         onClick={() => {
                             // downloadFolderAsZipPublic(props.id, props.title)

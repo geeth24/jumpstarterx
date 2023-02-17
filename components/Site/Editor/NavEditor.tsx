@@ -18,28 +18,16 @@ import {
     useToast,
 } from "@chakra-ui/react"
 import { getDoc, updateDoc, doc } from "firebase/firestore"
-import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    uploadString,
-} from "firebase/storage"
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { FaEdit } from "react-icons/fa"
 import { FiUploadCloud } from "react-icons/fi"
-import {
-    navbar1,
-    navbar2,
-    navbar3,
-} from "../../../elements/navbars/navbar.config"
 import Navbar1 from "../../../elements/navbars/Navbar1"
 import Navbar2 from "../../../elements/navbars/Navbar2"
 import Navbar3 from "../../../elements/navbars/Navbar3"
 import { auth, db } from "../../../utils/Firebase"
-import { encode as base64_encode } from "base-64"
 
 function NavEditor() {
     const {
@@ -56,18 +44,18 @@ function NavEditor() {
     const [value, setValue] = React.useState("3")
     const [navbarNumber, setNavbarNumber] = useState("3")
 
-    const [company, setCompany] = useState("Company")
-    const [tab1, setTab1] = React.useState("Tab 1")
-    const [tab2, setTab2] = React.useState("Tab 2")
-    const [tab3, setTab3] = React.useState("Tab 3")
-    const [tab4, setTab4] = React.useState("Tab 4")
-    const [tab5, setTab5] = React.useState("Tab 5")
+    const [company, setCompany] = useState("")
+    const [tab1, setTab1] = React.useState("")
+    const [tab2, setTab2] = React.useState("")
+    const [tab3, setTab3] = React.useState("")
+    const [tab4, setTab4] = React.useState("")
+    const [tab5, setTab5] = React.useState("")
 
     const [themeColor, setThemeColor] = useState("blue")
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const [logo, setLogo] = useState("/logo.png")
+    const [logo, setLogo] = useState("")
     const [selectedFile, setSelectedFile] = useState()
     const toast = useToast()
     const [uploaded, setUploaded] = useState(true)
@@ -185,20 +173,12 @@ function NavEditor() {
             logo: logo,
             navbarNumber: value,
         })
-        var navbar = ``
-        if (value === "1") {
-            navbar = navbar1
-        } else if (value === "2") {
-            navbar = navbar2
-        } else if (value === "3") {
-            navbar = navbar3
-        }
-
-        const endcoded = base64_encode(navbar)
-
-        var code = "data:text/javascript;base64," + endcoded
         const storage = getStorage()
-        const storageRef = ref(
+        const navbarComponent = ref(
+            storage,
+            "components/" + "/navbars" + `/navbar${value}` + "/Navbar.jsx"
+        )
+        const navbarDestination = ref(
             storage,
             "users/" +
                 // @ts-ignore
@@ -211,12 +191,24 @@ function NavEditor() {
                 "/Navbar.jsx"
         )
 
-        const upload = async () => {
+        const copy = async () => {
             setIsLoading(true)
-            await uploadString(storageRef, code, "data_url")
+
+            //copy the file
+            await getDownloadURL(navbarComponent)
+                .then((url) => {
+                    return fetch(url)
+                })
+                //make response a blob
+                .then((r) => r.blob())
+                //put the blob
+                .then((blobFile) => {
+                    uploadBytes(navbarDestination, blobFile)
+                })
+
             setIsLoading(false)
         }
-        await upload()
+        await copy()
         setNavbarNumber(value)
 
         setIsLoading(false)

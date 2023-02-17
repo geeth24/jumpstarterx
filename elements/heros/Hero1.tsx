@@ -43,7 +43,7 @@ export default function Hero1(props: HeroProps) {
                         >
                             <Box
                                 w="full"
-                                textAlign={{ sm: "center", lg: "left" }}
+                                textAlign="left"
                                 justifyContent="center"
                                 alignItems="center"
                             >
@@ -72,10 +72,10 @@ export default function Hero1(props: HeroProps) {
                                             base: "block",
                                             xl: "inline",
                                         }}
-                                        color={`${props.themeColor}.700`}
-                                        _dark={{
-                                            color: `${props.themeColor}.100`,
-                                        }}
+                                        color={useColorModeValue(
+                                            props.themeColor + ".700",
+                                            props.themeColor + ".100"
+                                        )}
                                     >
                                         {props.subheading}
                                     </chakra.span>
