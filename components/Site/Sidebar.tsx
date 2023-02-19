@@ -197,6 +197,7 @@ function Sidebar({ tab }: SidebarProps) {
                     ),
                     {
                         heading: "Create websites faster",
+                        heading2: "React.js Websites",
                         subheading: "With JumpStarterX",
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",

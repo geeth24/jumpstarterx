@@ -13,6 +13,7 @@ import {
 import { motion } from "framer-motion"
 function Hero() {
     const header = useColorModeValue("headerdark", "headerlight")
+    const builderImage = useColorModeValue("builderlight", "builderdark")
 
     return (
         <Box
@@ -151,7 +152,7 @@ function Hero() {
                     w="full"
                     rounded="lg"
                     shadow="2xl"
-                    src="/code.png"
+                    src={"/" + builderImage + ".png"}
                     alt="Illustration of a code editor"
                     as={motion.img}
                     //animate bottom to top

@@ -36,6 +36,8 @@ import { auth, db } from "../../../utils/Firebase"
 import { encode as base64_encode } from "base-64"
 import Hero1 from "../../../elements/heros/Hero1"
 import Hero2 from "../../../elements/heros/Hero2"
+import Hero3 from "../../../elements/heros/Hero3"
+
 
 function HeroEditor() {
     const {
@@ -53,6 +55,7 @@ function HeroEditor() {
     const [heroNumber, setHeroNumber] = useState("1")
 
     const [heading, setHeading] = useState("")
+    const [heading2, setHeading2] = useState("")
     const [subheading, setSubheading] = useState("")
     const [description, setDescription] = useState("")
     const [image, setImage] = useState("")
@@ -136,6 +139,7 @@ function HeroEditor() {
                     )
 
                     setHeading(userSitesElementsData.data()?.heading)
+                    setHeading2(userSitesElementsData.data()?.heading2)
                     setSubheading(userSitesElementsData.data()?.subheading)
                     setDescription(userSitesElementsData.data()?.description)
                     setImage(userSitesElementsData.data()?.image)
@@ -166,6 +170,7 @@ function HeroEditor() {
         )
         await updateDoc(userSitesElementsCollection, {
             heading: heading,
+            heading2: heading2,
             subheading: subheading,
             description: description,
             image: image,
@@ -259,6 +264,22 @@ function HeroEditor() {
                                 }}
                                 onClick={() => setValue("2")}
                             />
+                            <Image
+                                src="/editor/hero/hero3.png"
+                                width={300}
+                                height={100}
+                                alt={""}
+                                style={{
+                                    cursor: "pointer",
+                                    border:
+                                        value === "3"
+                                            ? `2px solid ${colorMode}`
+                                            : "none",
+                                    borderRadius: "5px",
+                                    opacity: value === "3" ? 1 : 0.5,
+                                }}
+                                onClick={() => setValue("3")}
+                            />
                             <FormLabel mt={4}>Image</FormLabel>
                             <FormLabel
                                 onChange={handleChangeFile}
@@ -300,6 +321,20 @@ function HeroEditor() {
                                 value={subheading}
                                 onChange={(e) => setSubheading(e.target.value)}
                             />
+                            {value === "3" ? (
+                                <>
+                                    <FormLabel mt={4}>Heading 2</FormLabel>
+                                    <Input
+                                        placeholder="Heading 2"
+                                        value={heading2}
+                                        onChange={(e) =>
+                                            setHeading2(e.target.value)
+                                        }
+                                    />
+                                </>
+                            ) : (
+                                <></>
+                            )}
                             <FormLabel mt={4}>Description</FormLabel>
                             <Textarea
                                 placeholder="Description"
@@ -360,6 +395,16 @@ function HeroEditor() {
                 {value === "2" && (
                     <Hero2
                         heading={heading}
+                        subheading={subheading}
+                        description={description}
+                        themeColor={themeColor}
+                        image={image}
+                    />
+                )}
+                {value === "3" && (
+                    <Hero3
+                        heading={heading}
+                        heading2={heading2}
                         subheading={subheading}
                         description={description}
                         themeColor={themeColor}
