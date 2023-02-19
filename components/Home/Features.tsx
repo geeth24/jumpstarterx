@@ -40,6 +40,7 @@ const features: IFeature[] = [
 ]
 
 const Features = () => {
+    const bg = useColorModeValue("gray.100", "gray.700")
     return (
         <Container maxW="6xl" p={{ base: 5, md: 10 }}>
             <chakra.h3
@@ -59,7 +60,7 @@ const Features = () => {
                 {features.map((feature, index) => (
                     <Box
                         key={index}
-                        bg={useColorModeValue("gray.100", "gray.700")}
+                        bg={bg}
                         p={6}
                         rounded="lg"
                         textAlign="center"
