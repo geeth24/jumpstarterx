@@ -201,7 +201,7 @@ function Sidebar({ tab }: SidebarProps) {
                         subheading: "With JumpStarterX",
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",
-                        image: "https://jumpstarterx.com/hero.svg",
+                        image: "https://jumpstarterx.com/flying.svg",
                         heroNumber: "1",
                     }
                 )
@@ -221,7 +221,7 @@ function Sidebar({ tab }: SidebarProps) {
                         heading: "React.js Website Builder",
                         description:
                             "JumpStarterX is a new way to design your website. It is a simple and easy to use tool that allows you to create a beautiful website in just a few minutes.",
-                        image: "https://jumpstarterx.com/hero.svg",
+                        image: "https://jumpstarterx.com/flying.svg",
                     }
                 )
                 const publicFiles = async () => {

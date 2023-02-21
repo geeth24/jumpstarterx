@@ -32,6 +32,9 @@ function CTA() {
             },
         },
     }
+
+    const builderImage = useColorModeValue("builderlight", "builderdark")
+
     return (
         <Flex
             direction={{ base: "column", md: "row" }}
@@ -155,7 +158,7 @@ function CTA() {
                     w="full"
                     rounded="lg"
                     shadow="2xl"
-                    src="/building.svg"
+                    src={"/" + builderImage + ".png"}
                     alt="Illustration of a person working in a website."
                     as={motion.img}
                     initial="offscreen"
